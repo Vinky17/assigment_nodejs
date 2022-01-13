@@ -1,0 +1,31 @@
+{
+  "name": "assigment_nodejs",
+  "version": "1.0.0",
+  "description": "kyle, assigment",
+  "main": "sever.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon sever.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rock02-vn/Assigment_nodejs.git"
+  },
+  "keywords": [
+    "kyle",
+    "247"
+  ],
+  "author": "kyle",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rock02-vn/Assigment_nodejs/issues"
+  },
+  "homepage": "https://github.com/Rock02-vn/Assigment_nodejs#readme",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.2",
+    "multer": "^1.4.4",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.15"
+  }
+}

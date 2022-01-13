@@ -1,0 +1,22 @@
+<%- include('../header') %>
+
+  <div class="container">
+    <div class="row mt-5">
+      <% for (let book of bookDetail) { %>
+        <div class="col-4">
+          <img src="/images/<%=book.image%>" alt="">
+        </div>
+        <div class="col-8">
+          <div class="fs-1">
+            <%=book.tittle%>
+          </div>
+          <div class="fs-2">
+            Tác giả : <%=book.author%>
+          </div>
+          <div class="fs-5 fw-light">
+            <%=book.description%>
+          </div>
+        </div>
+        <% } %>
+    </div>
+  </div>

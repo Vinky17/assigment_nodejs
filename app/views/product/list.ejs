@@ -1,0 +1,23 @@
+<%- include('../header') %>
+
+  <div class="container-sm">
+    <div class="row ">
+      <% for (let book of books) { %>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 mt-3">
+          <div class="card" style="width: 18rem;">
+            <img src="/images/<%=book.image%>" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title text-truncate">
+                <%=book.tittle%>
+              </h5>
+              <p class="card-text text-truncate">
+                <%=book.description%>
+              </p>
+              <a href="/products/<%=book.slug%>&<%=book.fk_type_id%>" class="btn btn-primary">Xem chi tiết</a>
+            </div>
+          </div>
+        </div>
+        <% } %>
+    </div>
+  </div>
+  <%- include('../footer') %>

@@ -1,0 +1,43 @@
+<%- include('./header') %>
+
+  <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active" data-bs-interval="1000">
+        <img src="/images/slide/slide1.jpg" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item" data-bs-interval="2000">
+        <img src="images/slide/slide2.jpg" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="images/slide/slide3.jpg" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="images/slide/slide4.jpg" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="images/slide/slide5.jpg" class="d-block w-100" alt="...">
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row mt-2">
+      <% for (let book of books) { %>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 mt-3">
+          <div class="card" style="width: 18rem;">
+            <img src="/images/<%=book.image%>" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title  text-truncate">
+                <%=book.tittle%>
+              </h5>
+              <p class="card-text text-truncate">
+                <%=book.description%>
+              </p>
+              <a href="/products/<%=book.slug%>&<%=book.fk_type_id%>" class="btn btn-primary">Xem chi tiết</a>
+            </div>
+          </div>
+        </div>
+        <% } %>
+    </div>
+  </div>
+  <%- include('./footer') %>
