@@ -31,6 +31,72 @@ class AdminController {
     res.render('admin/home')
   }
 
+  productsApi(req, res) {
+    let sql = 'SELECT * from book';
+    db.query(sql, function (err, books) {
+      if (err) { throw err; }
+      res.json(books);
+    })
+  }
+
+  // [GET] admin/list-product
+  listProduct(req, res) {
+    res.render('admin/list-product');
+  }
+
+
+  // [GET] admin/update-product/:id
+  updateProduct(req, res) {
+    let id = req.params.id;
+    let sql = 'SELECT * FROM type_book';
+    let sqlBook = 'SELECT * FROM book WHERE id = ' + id;
+    db.query(sql, (err, type) => {
+      if (err) throw err;
+      db.query(sqlBook, (err, book) => {
+        if (err) throw err;
+        res.render('admin/update-product', { type, book: book[0] });
+      })
+    })
+  }
+
+  // [POST] admin/update-product
+  handleUpdateProduct(req, res) {
+    let file = req.file;
+    let id = req.body.id;
+    let tittle = req.body.tittle;
+    let author = req.body.author;
+    let description = req.body.description;
+    let fk_type_id = req.body.type_book;
+    let image = file.filename;
+    console.log(id);
+
+    let newBook = {
+      tittle,
+      author,
+      description,
+      image,
+      slug: slugify(tittle),
+      fk_type_id,
+    }
+
+    db.query(`UPDATE book SET ? WHERE id = ${id}`,
+      [newBook, id], (err, data) => {
+        if (err) throw err;
+        res.send('Cập nhật thành công!')
+      })
+  }
+
+  // [GET] admin/delete-product
+  deleteProduct(req, res) {
+    let id = req.params.id;
+    let sqlBook = 'DELETE FROM book WHERE id = ' + id;
+    db.query(sqlBook, (err, data) => {
+      if (err) throw err;
+      res.redirect('/admin/home');
+    })
+    console.log(sqlBook);
+  }
+
   // [GET] admin/add-product
   addProduct(req, res) {
     let sql = 'SELECT * FROM type_book';

@@ -18,8 +18,16 @@ const storage = multer.diskStorage({
 //Khởi tạo middleware với cấu hình trên, lưu trên local của server khi dùng multer
 const upload = multer({ storage: storage });
 
+router.get('/products-api', adminController.productsApi);
+
+router.get('/list-product', adminController.listProduct);
+router.get('/update-product/:id', adminController.updateProduct);
+router.get('/delete-product/:id', adminController.deleteProduct);
 router.get('/add-product', adminController.addProduct);
+
+router.post('/update-product', upload.single('image'), adminController.handleUpdateProduct);
 router.post('/add-product', upload.single('image'), adminController.handleAddProduct);
-router.get('/', adminController.index);
+
+router.get('/home', adminController.index);
 
 module.exports = router;
