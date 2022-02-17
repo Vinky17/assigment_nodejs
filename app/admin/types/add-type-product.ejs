@@ -1,0 +1,20 @@
+<%- include('../header') %>
+
+  <form action="/admin/types/add-type-product" method="POST" class="col-8 mt-5 border border-dark p-3 m-auto">
+    <h3 class="text-center">THÊM DANH MỤC</h3>
+    <div class="form-group">
+      <label class="" for="tittle">Tên danh mục</label>
+      <input class="form-control " name="type_name" id="type_name">
+    </div>
+    <div class="form-group mt-2">
+      <label class="" for="image">Trạng thái</label>
+      <select name="status" id="">
+        <option value="1">Hiện</option>
+        <option value="0"> Ẩn </option>
+      </select>
+    </div>
+    <div class="form-group mt-3 ">
+      <button type="submit" class="btn btn-primary py-2 px-4">THÊM DANH MỤC</button>
+    </div>
+  </form>
+  </div>

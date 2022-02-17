@@ -39,6 +39,14 @@ class AdminController {
     })
   }
 
+  typeProductsApi(req, res) {
+    let sql = 'SELECT * from type_book';
+    db.query(sql, function (err, types) {
+      if (err) { throw err; }
+      res.json(types);
+    })
+  }
+
   // [GET] admin/list-product
   listProduct(req, res) {
     res.render('admin/list-product');
@@ -79,14 +87,14 @@ class AdminController {
       fk_type_id,
     }
 
-    db.query(`UPDATE book SET ? WHERE id = ${id}`,
+    db.query(`UPDATE book SET ? WHERE id = ?`,
       [newBook, id], (err, data) => {
         if (err) throw err;
         res.send('Cập nhật thành công!')
       })
   }
 
-  // [GET] admin/delete-product
+  // [GET] admin/delete-product:id
   deleteProduct(req, res) {
     let id = req.params.id;
     let sqlBook = 'DELETE FROM book WHERE id = ' + id;
@@ -128,6 +136,82 @@ class AdminController {
       if (err) throw err;
       res.redirect('/products');
     })
+  }
+
+  // [GET] admin/types/list-type-product
+  listTypeProducts(req, res) {
+    res.render('admin/types/list-type-product')
+  }
+
+  // [GET] admin/types/add-type-product
+  addTypeProduct(req, res) {
+    let sql = 'SELECT * FROM type_book';
+    db.query(sql, (err, type) => {
+      if (err) throw err;
+      res.render('admin/types/add-type-product', { type });
+    })
+  }
+
+  // [POST] admin/types/add-type-product
+  handleAddTypeProduct(req, res) {
+    let type_name = req.body.type_name;
+    let status = req.body.status;
+
+    let sql = `
+    INSERT INTO type_book (type_name,status )
+    VALUES ('${type_name}', ${status}) `
+
+    db.query(sql, (err, data) => {
+      if (err) throw err;
+      res.send('Thêm thành công');
+    })
+  }
+
+  // [GET] admin/delete-type-product:id
+  deleteTypeProduct(req, res) {
+    let id = req.params.id;
+    let sqlBook = 'DELETE FROM type_book WHERE pk_type_id = ' + id;
+    db.query(sqlBook, (err, data) => {
+      if (err) throw err;
+      res.send('Xóa thành công')
+    })
+  }
+
+  // [GET] admin/types/update-type-product/:id
+  updateTypeProduct(req, res) {
+    let sql = 'SELECT * FROM type_book';
+    db.query(sql, (err, type) => {
+      if (err) throw err;
+      res.render('admin/types/update-type-product', { type });
+      console.log(type);
+    })
+  }
+
+  // [POST] admin/update-product
+  handleUpdateProduct(req, res) {
+    let file = req.file;
+    let id = req.body.id;
+    let tittle = req.body.tittle;
+    let author = req.body.author;
+    let description = req.body.description;
+    let fk_type_id = req.body.type_book;
+    let image = file.filename;
+    console.log(id);
+
+    let newBook = {
+      tittle,
+      author,
+      description,
+      image,
+      slug: slugify(tittle),
+      fk_type_id,
+    }
+
+    db.query(`UPDATE book SET ? WHERE id = ?`,
+      [newBook, id], (err, data) => {
+        if (err) throw err;
+        res.send('Cập nhật thành công!')
+      })
   }
 }
 

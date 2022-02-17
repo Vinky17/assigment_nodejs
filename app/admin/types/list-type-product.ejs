@@ -1,0 +1,66 @@
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <title>Product</title>
+</head>
+<main class="container">
+  <a href="/admin/home" class="btn btn-secondary mt-2 mb-2">Quay lại</a>
+  <a href="/admin/types/add-type-product" class="btn btn-success mt-2 mb-2">Thêm danh mục mới</a>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>Tên danh mục</th>
+        <th>Trạng thái</th>
+
+      </tr>
+    </thead>
+    <tbody id="typesList">
+
+    </tbody>
+</main>
+<script>
+
+  fetch("http://localhost:3000/admin/type-products-api")
+    .then(check)
+    .then(processing)
+    .catch(error);
+
+
+  function check(res) {
+    if (!res.ok) { throw new Error("Lỗi = " + res.status); }
+    console.log(res);   //xem cấu trúc của response
+    return res.json();  //parse body của response thành json
+  }
+
+  function processing(data) {
+    //xử lý data tùy nhu cầu
+    for (data of data) {
+      list = `<tr>
+                  <td>${data.pk_type_id}</td>
+                  <td>${data.type_name}</td>
+                  <td>Hiện</td>
+                  <td style="text-align:center; font-weight:bold">
+                      <a style="padding-right:10px; color:green" href="/admin/types/update-product/${data.pk_type_id}">Sửa</a>
+                      <a style="color:red" href="/admin/types/delete-type-product/${data.pk_type_id}">Xóa</a>
+                  </td>
+              </tr>`;
+      document.querySelector("#typesList").innerHTML += list;
+    }
+    console.log(data);
+  }
+
+  function error(e) { console.log("Lỗi: ", e); }
+
+</script>

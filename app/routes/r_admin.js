@@ -19,14 +19,20 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.get('/products-api', adminController.productsApi);
+router.get('/type-products-api', adminController.typeProductsApi);
 
 router.get('/list-product', adminController.listProduct);
+router.get('/add-product', adminController.addProduct);
 router.get('/update-product/:id', adminController.updateProduct);
 router.get('/delete-product/:id', adminController.deleteProduct);
-router.get('/add-product', adminController.addProduct);
+
+router.get('/types/list-type-product', adminController.listTypeProducts);
+router.get('/types/add-type-product', adminController.addTypeProduct);
+router.get('/types/delete-type-product/:id', adminController.deleteTypeProduct);
 
 router.post('/update-product', upload.single('image'), adminController.handleUpdateProduct);
 router.post('/add-product', upload.single('image'), adminController.handleAddProduct);
+router.post('/types/add-type-product', adminController.handleAddTypeProduct);
 
 router.get('/home', adminController.index);
 

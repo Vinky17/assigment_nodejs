@@ -8,7 +8,6 @@ class ProductsController {
 
     db.query(sql, (err, typeList) => {
       if (err) throw err;
-
       db.query(sqlBook, (err, books) => {
         if (err) throw err;
         res.render('views/product/list', { books, typeList });
@@ -37,10 +36,8 @@ class ProductsController {
     let id = req.params.id;
     let sql = 'SELECT * from type_book';
     let sqlBook = `SELECT * from book WHERE fk_type_id = '${id}'`;
-
     db.query(sql, (err, typeList) => {
       if (err) throw err;
-
       db.query(sqlBook, (err, books) => {
         if (err) throw err;
         res.render('views/product/list', { books, typeList });
