@@ -1,0 +1,35 @@
+<%- include('../header') %>
+
+  <div class="container-sm">
+    <div class="dropdown text-end mt-3">
+      <a class="btn btn-info dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+        aria-expanded="false">
+        Lọc sản phẩm
+      </a>
+
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <li><a class="dropdown-item" href="/products/newest-product/newest">Sản phẩm mới</a></li>
+        <li><a class="dropdown-item" href="/products/viewest-product/newest">Sản phẩm xem nhiều</a></li>
+        <li><a class="dropdown-item" href="/products/hotest-product/vi">Sản phẩm hot</a></li>
+      </ul>
+    </div>
+    <div class="row ">
+      <% for (let book of books) { %>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 mt-3">
+          <div class="card" style="width: 18rem;">
+            <img src="/images/<%=book.image%>" class="card-img-top" alt="<%=book.tittle%>">
+            <div class="card-body">
+              <h5 class="card-title text-truncate">
+                <%=book.tittle%>
+              </h5>
+              <p class="card-text text-truncate">
+                <%=book.description%>
+              </p>
+              <a href="/products/<%=book.slug%>&<%=book.fk_type_id%>" class="btn btn-primary">Xem chi tiết</a>
+            </div>
+          </div>
+        </div>
+        <% } %>
+    </div>
+  </div>
+  <%- include('../footer') %>

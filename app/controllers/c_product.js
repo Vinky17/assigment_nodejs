@@ -44,5 +44,23 @@ class ProductsController {
       })
     })
   }
+
+  // [GET] /products/newest-product
+  newestProduct(req, res) {
+    let sql = 'SELECT pk_type_id, type_name from type_book';
+    let sqlBook = 'SELECT * from book  ORDER BY id DESC';
+    db.query(sql, (err, typeList) => {
+      if (err) throw err;
+      db.query(sqlBook, (err, books) => {
+        if (err) throw err;
+        res.render('views/product/newest-product', { books, typeList });
+      })
+    })
+  }
+
+  // [GET] /products/
+
+  // [GET] /products/
+
 }
 module.exports = new ProductsController;

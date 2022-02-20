@@ -8,7 +8,12 @@ app.use(bodyParser.json());
 
 const session = require('express-session');
 
-
+app.use(session({
+  secret: 'vinky',
+  resave: true,
+  saveUninitialized: true,
+  cookie: { maxAge: 60000 }
+}));
 
 app.set('view engine', 'ejs');
 app.set('views', './app');

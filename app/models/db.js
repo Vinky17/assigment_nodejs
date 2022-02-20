@@ -5,7 +5,7 @@ const db = mysql.createConnection({
   port: 3325,
   user: 'root',
   password: '',
-  database: 'vinky_book_dev'
+  database: 'assigment_nodejs'
 });
 
 module.exports = db;

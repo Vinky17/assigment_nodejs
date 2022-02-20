@@ -4,6 +4,7 @@ const productsController = require('../controllers/c_product')
 
 router.get('/:slug&:id', productsController.detail);
 router.get('/:id', productsController.viewList);
+router.get('/newest-produc/newsest', productsController.newestProduct);
 router.get('/', productsController.list);
 
 module.exports = router;

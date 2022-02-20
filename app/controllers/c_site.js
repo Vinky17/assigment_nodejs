@@ -10,38 +10,16 @@ class SitesController {
       if (err) throw err;
       db.query(sqlBook, (err, books) => {
         if (err) throw err;
-        res.render('views/index', { books, typeList });
+        if (req.session.logged) {
+          res.render('views/index', { books, typeList, user: req.session.username });
+        } else {
+          res.render('views/index', { books, typeList });
+        }
       })
     })
   }
 
-  logIn(req, res) {
-    let sql = 'SELECT * from type_book';
-    db.query(sql, function (err, typeList) {
-      res.render('views/login', { typeList });
-    })
-  }
-
-  handleLogIn(req, res) {
-    let username = req.body.username;
-    let password = req.body.password;
-    let sql = `SELECT * FROM users WHERE username = "${username}" `;
-    db.query(sql, (err, rows) => {
-      if (err) throw err;
-      if (rows.length <= 0) {
-        res.send('Không tìm thấy tài khoản !')
-        return;
-      }
-      let user = rows[0];
-      let result = bcrypt.compare(password, user.password);
-      console.log(password);
-      console.log(result);
-      console.log(sql);
-      console.log(user);
-      result ? res.send('SUCCESSFULLY!!') : res.send('Đăng nhập thất bại')
-    });
-  }
-
+  // [GET] /views/signup
   signUp(req, res) {
     let sql = 'SELECT * from type_book';
     db.query(sql, function (err, typeList) {
@@ -49,6 +27,7 @@ class SitesController {
     })
   }
 
+  // [POST] /views/signup
   handleSignUp(req, res) {
     let username = req.body.username;
     let password = req.body.password;
@@ -58,7 +37,7 @@ class SitesController {
     let salt = bcrypt.genSaltSync(10);
     let encode_password = bcrypt.hashSync(password, salt);
 
-    const user = { fullname, username, password: encode_password, adress: address, email };
+    const user = { fullname, username, password: encode_password, address, email };
 
     let sql = 'INSERT INTO users SET ?';
     db.query(sql, user, function (err) {
@@ -67,6 +46,44 @@ class SitesController {
     });
   }
 
+  // [GET] /views/login
+  logIn(req, res) {
+    let sql = 'SELECT * from type_book';
+    db.query(sql, function (err, typeList) {
+      res.render('views/login', { typeList });
+    })
+  }
+
+  // [POST] /views/login
+  async handleLogIn(req, res) {
+    let username = req.body.username;
+    let password = req.body.password;
+    let sql = `SELECT * FROM users WHERE username = ? `;
+    db.query(sql, username, (err, rows) => {
+      if (err) throw err;
+      if (rows.length <= 0) {
+        res.send('Không tìm thấy tài khoản !')
+        return;
+      }
+      const user = rows[0];
+      const pass_fromdb = user.password;
+      const result = bcrypt.compareSync(password, pass_fromdb);
+
+      if (result) {
+        req.session.logged = true;
+        req.session.username = user.username;
+        res.redirect('/home');
+      } else {
+        res.redirect('/login')
+      }
+    });
+  }
+
+  // [GET] /views/logout
+  logOut(req, res) {
+    req.session.destroy();
+    res.redirect('/home');
+  }
 
 }
 
