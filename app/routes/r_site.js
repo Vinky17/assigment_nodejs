@@ -9,6 +9,6 @@ router.get('/logout', sitesController.logOut);
 router.post('/signup', sitesController.handleSignUp);
 router.post('/login', sitesController.handleLogIn);
 
-router.get('/home', sitesController.getList);
+router.get('/', sitesController.getList);
 
 module.exports = router;

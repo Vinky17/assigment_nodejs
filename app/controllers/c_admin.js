@@ -27,6 +27,7 @@ function slugify(string) {
 
 
 class AdminController {
+  // [GET] admin/home
   index(req, res) {
     res.render('admin/home')
   }
