@@ -61,7 +61,7 @@ class ProductsController {
   // [GET] /products/viewest-product
   viewestProduct(req, res) {
     let sql = 'SELECT pk_type_id, type_name from type_book';
-    let sqlBook = 'SELECT * from book  ORDER BY id DESC';
+    let sqlBook = 'SELECT * from book  ORDER BY views DESC';
     db.query(sql, (err, typeList) => {
       if (err) throw err;
       db.query(sqlBook, (err, books) => {
@@ -75,7 +75,7 @@ class ProductsController {
   // [GET] /products/hottest-product
   hottestProduct(req, res) {
     let sql = 'SELECT pk_type_id, type_name from type_book';
-    let sqlBook = 'SELECT * from book  ORDER BY id DESC';
+    let sqlBook = 'SELECT * from book  ORDER BY fk_type_id DESC';
     db.query(sql, (err, typeList) => {
       if (err) throw err;
       db.query(sqlBook, (err, books) => {

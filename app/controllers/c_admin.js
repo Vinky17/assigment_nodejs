@@ -29,29 +29,29 @@ function slugify(string) {
 class AdminController {
   // [GET] admin/home
   index(req, res) {
-    res.render('admin/home')
-  }
+    res.render('admin/home');
+  };
 
   productsApi(req, res) {
     let sql = 'SELECT * from book';
     db.query(sql, function (err, books) {
       if (err) { throw err; }
       res.json(books);
-    })
-  }
+    });
+  };
 
   typeProductsApi(req, res) {
     let sql = 'SELECT * from type_book';
     db.query(sql, function (err, types) {
       if (err) { throw err; }
       res.json(types);
-    })
-  }
+    });
+  };
 
   // [GET] admin/list-product
   listProduct(req, res) {
     res.render('admin/list-product');
-  }
+  };
 
 
   // [GET] admin/update-product/:id
@@ -64,9 +64,9 @@ class AdminController {
       db.query(sqlBook, (err, book) => {
         if (err) throw err;
         res.render('admin/update-product', { type, book: book[0] });
-      })
-    })
-  }
+      });
+    });
+  };
 
   // [POST] admin/update-product
   handleUpdateProduct(req, res) {
@@ -92,8 +92,8 @@ class AdminController {
       [newBook, id], (err, data) => {
         if (err) throw err;
         res.send('Cập nhật thành công!')
-      })
-  }
+      });
+  };
 
   // [GET] admin/delete-product:id
   deleteProduct(req, res) {
@@ -104,7 +104,7 @@ class AdminController {
       res.redirect('/admin/home');
     })
     console.log(sqlBook);
-  }
+  };
 
   // [GET] admin/add-product
   addProduct(req, res) {
@@ -113,7 +113,7 @@ class AdminController {
       if (err) throw err;
       res.render('admin/add-product', { type });
     })
-  }
+  };
 
   // [POST] admin/add-product
   handleAddProduct(req, res) {
@@ -137,7 +137,7 @@ class AdminController {
       if (err) throw err;
       res.redirect('/products');
     })
-  }
+  };
 
   // [GET] admin/types/list-type-product
   listTypeProducts(req, res) {
@@ -151,7 +151,7 @@ class AdminController {
       if (err) throw err;
       res.render('admin/types/add-type-product', { type });
     })
-  }
+  };
 
   // [POST] admin/types/add-type-product
   handleAddTypeProduct(req, res) {
@@ -166,7 +166,7 @@ class AdminController {
       if (err) throw err;
       res.send('Thêm thành công');
     })
-  }
+  };
 
   // [GET] admin/delete-type-product:id
   deleteTypeProduct(req, res) {
@@ -176,7 +176,7 @@ class AdminController {
       if (err) throw err;
       res.send('Xóa thành công')
     })
-  }
+  };
 
   // [GET] admin/types/update-type-product/:id
   updateTypeProduct(req, res) {
@@ -186,7 +186,7 @@ class AdminController {
       res.render('admin/types/update-type-product', { type });
       console.log(type);
     })
-  }
+  };
 
   // [POST] admin/update-product
   handleUpdateProduct(req, res) {
@@ -213,7 +213,7 @@ class AdminController {
         if (err) throw err;
         res.send('Cập nhật thành công!')
       })
-  }
+  };
 }
 
 module.exports = new AdminController;

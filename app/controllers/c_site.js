@@ -1,6 +1,23 @@
 const db = require('../models/db');
+const mailer = require('../models/mailer');
 const bcrypt = require("bcrypt");
 class SitesController {
+
+  // sendMail(req, res) {
+  //   try {
+  //     // Lấy data truyền lên từ form phía client
+  //     const to = req.body.to
+  //     // Thực hiện gửi email
+  //     await mailer.sendMail(to)
+  //     // Quá trình gửi email thành công thì gửi về thông báo success cho người dùng
+  //     res.send('<h3>Your email has been sent successfully.</h3>')
+  //   } catch (error) {
+  //     // Nếu có lỗi thì log ra để kiểm tra và cũng gửi về client
+  //     console.log(error)
+  //     res.send(error)
+  //   }
+  // }
+
   // [GET] /views/index
   getList(req, res) {
     let sql = 'SELECT * from type_book';
@@ -34,10 +51,11 @@ class SitesController {
     let fullname = req.body.fullname;
     let address = req.body.address;
     let email = req.body.email;
+    let role = req.body.role;
     let salt = bcrypt.genSaltSync(10);
     let encode_password = bcrypt.hashSync(password, salt);
 
-    const user = { fullname, username, password: encode_password, address, email };
+    const user = { fullname, username, password: encode_password, role, address, email };
 
     let sql = 'INSERT INTO users SET ?';
     db.query(sql, user, function (err) {
@@ -67,12 +85,17 @@ class SitesController {
       }
       const user = rows[0];
       const pass_fromdb = user.password;
+      const role = user.role;
       const result = bcrypt.compareSync(password, pass_fromdb);
 
       if (result) {
-        req.session.logged = true;
-        req.session.username = user.username;
-        res.redirect('/home');
+        if (role !== 1) {
+          req.session.logged = true;
+          req.session.username = user.username;
+          res.redirect('/');
+        } else {
+          res.redirect('/admin/home')
+        }
       } else {
         res.redirect('/login')
       }
@@ -82,9 +105,29 @@ class SitesController {
   // [GET] /views/logout
   logOut(req, res) {
     req.session.destroy();
-    res.redirect('/home');
+    res.redirect('/');
   }
 
+  // [GET] /views/search
+  search(req, res) {
+    const tittle = req.query.tittle;
+    const sql = 'SELECT * FROM book';
+    const sqlBook = 'SELECT * FROM type_book';
+    db.query(sql, function (err, books) {
+      db.query(sqlBook, function (err, typeList) {
+        const data = books.filter(function (item) {
+          return item.tittle.toLowerCase().indexOf(tittle.toLowerCase()) !== -1
+        });
+        if (data.length > 0) {
+          res.render('views/product/list', {
+            books: data,
+            typeList
+          });
+        } else { res.send('Không tìm thấy sản phẩm !'); }
+      })
+    })
+  }
 }
+
 
 module.exports = new SitesController;
