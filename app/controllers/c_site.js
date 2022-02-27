@@ -3,20 +3,20 @@ const mailer = require('../models/mailer');
 const bcrypt = require("bcrypt");
 class SitesController {
 
-  // sendMail(req, res) {
-  //   try {
-  //     // Lấy data truyền lên từ form phía client
-  //     const to = req.body.to
-  //     // Thực hiện gửi email
-  //     await mailer.sendMail(to)
-  //     // Quá trình gửi email thành công thì gửi về thông báo success cho người dùng
-  //     res.send('<h3>Your email has been sent successfully.</h3>')
-  //   } catch (error) {
-  //     // Nếu có lỗi thì log ra để kiểm tra và cũng gửi về client
-  //     console.log(error)
-  //     res.send(error)
-  //   }
-  // }
+  async sendMail(req, res) {
+    try {
+      // Lấy data truyền lên từ form phía client
+      const to = req.body.to
+      // Thực hiện gửi email
+      await mailer.sendMail(to)
+      // Quá trình gửi email thành công thì gửi về thông báo success cho người dùng
+      res.send('<h1>Gửi email thành công!.</h1>')
+    } catch (error) {
+      // Nếu có lỗi thì log ra để kiểm tra và cũng gửi về client
+      console.log(error)
+      res.send(error)
+    }
+  }
 
   // [GET] /views/index
   getList(req, res) {

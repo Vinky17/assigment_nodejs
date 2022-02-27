@@ -9,7 +9,7 @@ router.get('/search', sitesController.search);
 
 router.post('/signup', sitesController.handleSignUp);
 router.post('/login', sitesController.handleLogIn);
-// router.post('/send-mail', sitesController.sendMail);
+router.post('/send-email', sitesController.sendMail);
 
 router.get('/', sitesController.getList);
 
